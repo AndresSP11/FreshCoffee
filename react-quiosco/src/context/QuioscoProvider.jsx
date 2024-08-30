@@ -13,12 +13,18 @@ const QuioscoProvider = ({children}) => {
     que configurar nuevamente, aqui ES DONDE SE VA PASAR TODAS LAS FUNCIONES. */
     const [categorias,setCategorias]=useState(categoriasDB);    
     
+    const [categoriaActual,setCategoriaActual]=useState(categorias[0]);
     
-
+    const handleClickCategoria=()=>{
+      console.log('click ne categoria');
+    }
+    
   return (
     <QuioscoContext.Provider value={
         {
-           categorias
+           categorias,
+           categoriaActual,
+           handleClickCategoria
         }
     }>
         {children}
