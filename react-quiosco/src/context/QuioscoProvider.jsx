@@ -42,7 +42,6 @@ const QuioscoProvider = ({children}) => {
     },[categoriaActual])
 
     const handleAgregarPedido=({categoria_id,imagen,...producto})=>{
-      
         setPedido([...pedido,producto]);
     }
 

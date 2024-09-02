@@ -1,5 +1,6 @@
 import React from 'react'
 import useQuiosco from '../hooks/useQuiosco';
+import ResumenProducto from './ResumenProducto';
 
 
 export default function Resumen() {
@@ -16,7 +17,16 @@ export default function Resumen() {
         </p>
 
         <div className=''>
-          { pedido.length===0 ? (<p className=' text-center text-2xl'>No hay nada</p>) : (<p>Si hay algo</p>) }
+          { pedido.length===0 ? (<p className=' text-center text-2xl'>No hay nada</p>) : 
+          (pedido.map((producto)=>(
+            <p>
+              <ResumenProducto
+              key={producto.id}
+              producto={producto}>
+              </ResumenProducto>
+            </p>
+          ))
+          )}
         </div>
 
         <p>
