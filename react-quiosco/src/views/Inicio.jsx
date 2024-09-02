@@ -1,5 +1,5 @@
 import React from 'react'
-import { productos } from '../data/productos'
+
 import Producto from '../components/Producto'
 import useQuiosco from '../hooks/useQuiosco'
 
@@ -7,8 +7,8 @@ import useQuiosco from '../hooks/useQuiosco'
 const Inicio = () => {
   /* Recordar las funciones abiertas extraen el return de cada función necesaria. */
   
-  const {categoriaActual}=useQuiosco();
-  
+  const {categoriaActual,productos}=useQuiosco();
+
   return (
     <>
       <h1 className=' text-4xl font-black'>{categoriaActual.nombre} </h1>
@@ -23,8 +23,7 @@ const Inicio = () => {
             key={producto.id}
             producto={producto}></Producto>
           ))}
-          <div className=' border border-gray-500 h-10'></div>
-        
+          
       </div>
     </>
   )
