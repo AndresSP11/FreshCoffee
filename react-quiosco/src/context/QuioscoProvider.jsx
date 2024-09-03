@@ -41,11 +41,21 @@ const QuioscoProvider = ({children}) => {
       setProductos(productosFiltrados);
     },[categoriaActual])
 
+
     const handleAgregarPedido=({categoria_id,imagen,...producto})=>{
+        
+        if(pedido.some(pedidoState=>pedidoState.id===producto.id)){
+          const productoEdicion=pedido.map(pedidoState=>pedidoState.id===producto.id ? producto : pedidoState);
+          setPedido(productoEdicion);
+      }else{
         setPedido([...pedido,producto]);
+      }
     }
 
-
+    const eliminarProducto=(producto)=>{
+      const nuevoArreglo=pedido.filter(felpudini=>felpudini.id!==producto.id);
+      setPedido(nuevoArreglo);
+    }
     
   return (
     <QuioscoContext.Provider value={
@@ -59,7 +69,8 @@ const QuioscoProvider = ({children}) => {
            producto,
            handleSetProducto,
            pedido,
-           handleAgregarPedido
+           handleAgregarPedido,
+           eliminarProducto
         }
     }>
         {children}

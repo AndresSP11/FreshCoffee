@@ -1,11 +1,24 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useQuiosco from '../hooks/useQuiosco'
 import { formatearDinero } from '../helpers';
 
 
 const ModalProducto = () => {
     const [cantidad,setCantidad]=useState(1);
-    const {producto,handleClickModal,handleAgregarPedido}=useQuiosco();
+    const [edicion,setEdicion]=useState(false);
+    const {producto,handleClickModal,handleAgregarPedido,pedido}=useQuiosco();
+
+    /* El useEffect se ejecuta cuando se abre el modal , como tambien cuando se hace la parte de o se mueve el setState */
+    useEffect(()=>{
+        /* En este caso recordar que el producto se llena en base a la parte de cada uno , al momento de seleccionar 
+        recordar esa parte */
+        if(pedido.some(pedidoState=>pedidoState.id===producto.id)){
+            const productoEdicion=pedido.filter(pedidoState=>pedidoState.id===producto.id)[0];
+            setCantidad(productoEdicion.cantidad);
+            setEdicion(true);
+        }
+    },[pedido])
+
 
     const incrementarCantidad=()=>{
         if(cantidad>=5){
@@ -60,9 +73,14 @@ const ModalProducto = () => {
             <button
             type='button'
             className='bg-indigo-600 hover:bg-indigo-800 px-5 py-2 mt-5 text-white font-bold uppercase rounded'
-            onClick={()=>handleAgregarPedido({...producto,cantidad})}
+            onClick={()=>{
+                handleAgregarPedido({...producto,cantidad}),
+                handleClickModal()
+            }
+                
+            }
             >
-                Añadir al Pedido
+                {edicion ? 'Guardar Cambios':'Añadir Pedido'}
             </button>
         </div>  
     </div>
