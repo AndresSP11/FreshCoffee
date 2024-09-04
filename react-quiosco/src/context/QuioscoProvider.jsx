@@ -23,6 +23,12 @@ const QuioscoProvider = ({children}) => {
     
     const [modal,setModal]=useState(false); /* Se crea false para que  presionemos se ahga true */
 
+    const [total,setTotal]=useState(0);
+
+  useEffect(()=>{
+    const contarTotal=pedido.reduce((total,producto)=>(producto.precio*producto.cantidad)+total,0);
+    setTotal(contarTotal);
+  },[pedido]);
 
     const handleClickCategoria=(id)=>{
       const categoria=categorias.filter(categoria=>categoria.id==id)[0];
@@ -45,7 +51,6 @@ const QuioscoProvider = ({children}) => {
 
 
     const handleAgregarPedido=({categoria_id,...producto})=>{
-        
         if(pedido.some(pedidoState=>pedidoState.id===producto.id)){
           const productoEdicion=pedido.map(pedidoState=>pedidoState.id===producto.id ? producto : pedidoState);
           setPedido(productoEdicion);
@@ -62,10 +67,9 @@ const QuioscoProvider = ({children}) => {
       setModal(!modal);
     }
 
-
     const eliminarProducto=(producto)=>{
       const nuevoArreglo=pedido.filter(felpudini=>felpudini.id!==producto.id);
-      setProducto(nuevoArreglo);
+      setPedido(nuevoArreglo);
       toast.success('Eliminado Correctamente')
     }
     
@@ -83,7 +87,8 @@ const QuioscoProvider = ({children}) => {
            pedido,
            handleAgregarPedido,
            eliminarProducto,
-           handleEditarCantidad
+           handleEditarCantidad,
+           total
         }
     }>
         {children}

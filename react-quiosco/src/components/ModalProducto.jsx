@@ -10,6 +10,11 @@ const ModalProducto = () => {
 
     /* El useEffect se ejecuta cuando se abre el modal , como tambien cuando se hace la parte de o se mueve el setState */
     useEffect(()=>{
+        /* En esta ocasión se permite ver el some para ael producto inicial.
+        Lo que significa que este pedido some vamos a validar si cuand oestamos abriendo este objeto se encuentra o no
+        Si es así vaosm a pasar a  cantidad. */
+
+
         /* En este caso recordar que el producto se llena en base a la parte de cada uno , al momento de seleccionar 
         recordar esa parte */
         if(pedido.some(pedidoState=>pedidoState.id===producto.id)){
