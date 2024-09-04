@@ -17,6 +17,7 @@ const ModalProducto = () => {
             setCantidad(productoEdicion.cantidad);
             setEdicion(true);
         }
+        /* Rercordar la parte qeu se ahce la parte del Modal */
     },[pedido])
 
 
