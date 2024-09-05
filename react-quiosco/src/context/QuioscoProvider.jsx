@@ -5,6 +5,9 @@ import { createContext } from "react";
 import { categorias as categoriasDB } from '../data/categorias'
 import {productos as productosDB} from '../data/productos'
 import { toast } from 'react-toastify';
+import axios from 'axios';
+
+
 
 const QuioscoContext=createContext();
 
@@ -16,8 +19,8 @@ const QuioscoProvider = ({children}) => {
     /* Probando Productos */
     const [productos,setProductos]=useState(productosDB);
     const [producto,setProducto]=useState({});
-    const [categorias,setCategorias]=useState(categoriasDB);    
-    const [categoriaActual,setCategoriaActual]=useState(categorias[0]);
+    const [categorias,setCategorias]=useState([]);    
+    const [categoriaActual,setCategoriaActual]=useState({});
 
     const [pedido,setPedido]=useState([]);
     
@@ -29,6 +32,27 @@ const QuioscoProvider = ({children}) => {
     const contarTotal=pedido.reduce((total,producto)=>(producto.precio*producto.cantidad)+total,0);
     setTotal(contarTotal);
   },[pedido]);
+
+
+  const obtenerCategorias=async()=>{
+    try {
+      console.log()
+        const {data}=await axios(`${import.meta.env.VITE_API_URL}/api/categorias`)
+        setCategorias(data.data);
+        setCategoriaActual(data.data[0]);
+    } catch (error) {
+        console.log(error); 
+    }
+}
+  /* Recorreder la funcion cuando este listo la pate de Categorias ... */
+  useEffect(()=>{
+      obtenerCategorias();
+  },[])
+
+
+  
+
+
 
     const handleClickCategoria=(id)=>{
       const categoria=categorias.filter(categoria=>categoria.id==id)[0];

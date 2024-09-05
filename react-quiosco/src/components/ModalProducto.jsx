@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import useQuiosco from '../hooks/useQuiosco'
 import { formatearDinero } from '../helpers';
+import axios from 'axios';
 
 
 const ModalProducto = () => {
@@ -24,6 +25,19 @@ const ModalProducto = () => {
         }
         /* Rercordar la parte qeu se ahce la parte del Modal */
     },[pedido])
+
+    /* HACIENDO USO DE AXIOS */
+
+  
+
+
+
+
+
+
+
+     
+
 
 
     const incrementarCantidad=()=>{
