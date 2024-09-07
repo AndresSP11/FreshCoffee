@@ -6,6 +6,7 @@ import { categorias as categoriasDB } from '../data/categorias'
 import {productos as productosDB} from '../data/productos'
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import clienteAxios from '../config/axios';
 
 
 
@@ -34,25 +35,24 @@ const QuioscoProvider = ({children}) => {
   },[pedido]);
 
 
+  /* Recordar que estamos utilizando la parte de axios, config para 
+  obtener la baseURL definida y ya no se necesita el axios directamente  */
   const obtenerCategorias=async()=>{
     try {
-      console.log()
-        const {data}=await axios(`${import.meta.env.VITE_API_URL}/api/categorias`)
+        const {data}=await clienteAxios(`/api/categorias`)
+        /* Destructurin la parte de la data. */
         setCategorias(data.data);
         setCategoriaActual(data.data[0]);
     } catch (error) {
         console.log(error); 
     }
 }
+
   /* Recorreder la funcion cuando este listo la pate de Categorias ... */
+  /* Recordar que la parte del UseEffect va ver la forma en la que se va establecer al inicio */
   useEffect(()=>{
       obtenerCategorias();
   },[])
-
-
-  
-
-
 
     const handleClickCategoria=(id)=>{
       const categoria=categorias.filter(categoria=>categoria.id==id)[0];
@@ -67,12 +67,6 @@ const QuioscoProvider = ({children}) => {
     const handleSetProducto=(producto)=>{
       setProducto(producto);
     }
-
-    useEffect(()=>{
-      const productosFiltrados=productosDB.filter(producto=>producto.categoria_id==categoriaActual.id);
-      setProductos(productosFiltrados);
-    },[categoriaActual])
-
 
     const handleAgregarPedido=({categoria_id,...producto})=>{
         if(pedido.some(pedidoState=>pedidoState.id===producto.id)){

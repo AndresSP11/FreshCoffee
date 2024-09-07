@@ -1,7 +1,37 @@
-import React from 'react'
+import React, { createRef, useState} from 'react'
 import { Link } from 'react-router-dom'
+import clienteAxios from '../config/axios';
+
 
 const Registro = () => {
+
+  const nameRef=createRef();
+  const emailRef=createRef();
+  const passwordRef=createRef();
+  const passwordConfirmationRef=createRef();
+
+  const [errores,setErrores]=useState([]);
+
+  const handleSubmit=async (e)=>{
+    e.preventDefault();
+
+    const datos={
+      name:nameRef.current.value,
+      email:emailRef.current.value,
+      password:passwordRef.current.value,
+      /*   */
+    }
+    
+    try {
+      /* Haciendo envio de la parte de la api...  */
+      const respuesta=await clienteAxios.post('/api/registro',datos);
+      console.log(respuesta);
+    } catch (error) {
+      console.log(Object.values(error.response.data.errors));
+    }
+
+
+  }
   return (
     <>
       <div className=''>
@@ -10,7 +40,10 @@ const Registro = () => {
       </div>
 
       <div className=' bg-white shadow-lg rounded-md mt-10 px-5 py-10 border'>
-          <form action="" className=' gap-2'>
+          <form action="" className=' gap-2'
+            onSubmit={handleSubmit}
+            noValidate
+          >
 
             <div className=' mt-2' >
               <label htmlFor="name">Nombre:</label>
@@ -18,7 +51,9 @@ const Registro = () => {
               type="text"
               className='p-2 border rounded w-full mt-2 bg-gray-50'
               id='name'
+              name='name'
               placeholder='Tu Nombre'
+              ref={nameRef}
               />
             {/* Email */}
             </div>
@@ -28,7 +63,9 @@ const Registro = () => {
               type="email"
               className='p-2 border rounded w-full mt-2 bg-gray-50'
               id='email'
+              name='email'
               placeholder='Tu Email'
+              ref={emailRef}
               />
             
             </div>
@@ -40,7 +77,9 @@ const Registro = () => {
               type="password"
               className='p-2 border rounded w-full mt-2 bg-gray-50'
               id='password'
+              name='password'
               placeholder='Tu Password'
+              ref={passwordRef}
               />
             
             </div>
@@ -51,8 +90,10 @@ const Registro = () => {
               <input 
               type="password"
               className='p-2 border rounded w-full mt-2'
-              id='password_confirmation'
+              name="password_confirmation"
+              id='password_confirmation   '
               placeholder='Repetir Password'
+              ref={passwordConfirmationRef}
               />
             </div>
 
