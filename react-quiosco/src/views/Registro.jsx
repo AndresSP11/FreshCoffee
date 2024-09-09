@@ -1,6 +1,8 @@
 import React, { createRef, useState} from 'react'
 import { Link } from 'react-router-dom'
 import clienteAxios from '../config/axios';
+import Alerta from '../components/Alerta';
+import { useAuth } from '../hooks/useAuth';
 
 
 const Registro = () => {
@@ -12,6 +14,9 @@ const Registro = () => {
 
   const [errores,setErrores]=useState([]);
 
+  
+  const {registro}=useAuth({middleware:'guest',url:'/'})
+  /* la parte de async... */
   const handleSubmit=async (e)=>{
     e.preventDefault();
 
@@ -19,16 +24,21 @@ const Registro = () => {
       name:nameRef.current.value,
       email:emailRef.current.value,
       password:passwordRef.current.value,
+      password_confirmation:passwordConfirmationRef.current.value
       /*   */
     }
     
-    try {
+    registro(datos,setErrores);
+    //try {
       /* Haciendo envio de la parte de la api...  */
-      const respuesta=await clienteAxios.post('/api/registro',datos);
-      console.log(respuesta);
-    } catch (error) {
-      console.log(Object.values(error.response.data.errors));
-    }
+     // const {data}=await clienteAxios.post('/api/registro',datos);
+    //  console.log(data.token);
+   // } catch (error) {
+     // console.log(Object.values(error.response.data));
+      /* Almacenando los errores de la base de datos al mandar o comunicar al a api, recuertda que la ruta es como un opòst
+       */
+      //setErrores(Object.values(error.response.data.errors))
+    //}
 
 
   }
@@ -40,11 +50,12 @@ const Registro = () => {
       </div>
 
       <div className=' bg-white shadow-lg rounded-md mt-10 px-5 py-10 border'>
+          
           <form action="" className=' gap-2'
             onSubmit={handleSubmit}
             noValidate
           >
-
+            {errores ? errores.map(error=> <Alerta>{error}</Alerta>) : null}
             <div className=' mt-2' >
               <label htmlFor="name">Nombre:</label>
               <input 
@@ -67,10 +78,7 @@ const Registro = () => {
               placeholder='Tu Email'
               ref={emailRef}
               />
-            
             </div>
-
-
             <div className=' mt-2'>
               <label htmlFor="password">Password:</label>
               <input 
@@ -81,10 +89,7 @@ const Registro = () => {
               placeholder='Tu Password'
               ref={passwordRef}
               />
-            
             </div>
-
-
             <div className=' mt-2'>
               <label htmlFor="password_confirmation">Repetir Password:</label>
               <input 

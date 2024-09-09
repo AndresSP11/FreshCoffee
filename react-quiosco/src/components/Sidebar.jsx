@@ -2,6 +2,7 @@ import React from 'react'
 
 import Categoria from './Categoria'
 import useQuiosco from '../hooks/useQuiosco'
+import { useAuth } from '../hooks/useAuth';
 
 
 
@@ -9,6 +10,9 @@ import useQuiosco from '../hooks/useQuiosco'
 export default function Sidebar() {
   
     const {categorias}=useQuiosco();
+
+    const {logout,user}=useAuth({middleware:'auth'});
+
     return (
     <aside className=' md:w-72'>
         <div className=' p-4'>
@@ -18,7 +22,7 @@ export default function Sidebar() {
             src="img/logo.svg" 
             alt="" />
         </div>
-
+        <p className=' my-2 text-xl text-center'>Hola {user?.name}</p>
         <div className=' mt-10'>
             {categorias.map( categoria=>
                 <Categoria
@@ -30,7 +34,8 @@ export default function Sidebar() {
 
         <div className=' my-5 py-5'>
             <button
-            className=' bg-red-500 text-center w-full font-bold text-gray-100 py-3'>
+            className=' bg-red-500 text-center w-full font-bold text-gray-100 py-3'
+            onClick={logout}>
                 Cancelar Orden
             </button>
         </div>

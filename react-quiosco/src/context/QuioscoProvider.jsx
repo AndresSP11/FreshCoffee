@@ -91,6 +91,26 @@ const QuioscoProvider = ({children}) => {
       toast.success('Eliminado Correctamente')
     }
     
+    const handleSubmitNuevaOrden=async()=>{
+      /* En esta ocasiòn la parte esta haciendo de la autorizaciòn */
+      const token = localStorage.getItem('AUTH_TOKEN');
+      try {
+        await clienteAxios.post('/api/pedidos',
+          {
+            total
+          },
+          {
+            headers:{
+              Authorization:`Bearer ${token}`
+            }
+          }
+      )
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+
   return (
     <QuioscoContext.Provider value={
         {
@@ -106,7 +126,8 @@ const QuioscoProvider = ({children}) => {
            handleAgregarPedido,
            eliminarProducto,
            handleEditarCantidad,
-           total
+           total,
+           handleSubmitNuevaOrden
         }
     }>
         {children}

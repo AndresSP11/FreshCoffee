@@ -6,11 +6,22 @@ import { formatearDinero } from '../helpers';
 
 export default function Resumen() {
 
-  const {pedido,total}=useQuiosco();
+  const {pedido,total,handleSubmitNuevaOrden}=useQuiosco();
 
   const comprobarPedido=()=>pedido.length==0;
 
   console.log(comprobarPedido());
+
+  const handleSubmit=(e)=>{
+    e.preventDefault();
+    console.log("Enviando datos");
+    handleSubmitNuevaOrden();
+
+  }
+
+
+
+
   return (
     <aside className=' w-72 h-screen overflow-y-scroll p-5'>
         <h1 className=' text-4xl font-extrabold'>
@@ -38,12 +49,14 @@ export default function Resumen() {
           {formatearDinero(total)}
         </p>
 
-        <form action=" w-full">
+        <form action=" w-full"
+          onSubmit={handleSubmit}
+        >
           <div className=' mt-5 items-center'>
             <input 
             value="Confirmar Pedido"
             disabled={comprobarPedido()}
-            type="text" className={`cursor-pointer
+            type="submit" className={`cursor-pointer
              
               ${comprobarPedido() ?
                  'bg-indigo-200'

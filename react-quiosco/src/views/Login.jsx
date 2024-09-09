@@ -1,8 +1,33 @@
-import React from 'react'
+import React, { createRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Alerta from '../components/Alerta';
+import { useAuth } from '../hooks/useAuth';
 
 
 const Login = () => {
+  const emailRef=createRef();
+  const passwordRef=createRef();
+
+  const [errores,setErrores]=useState([]);
+
+  const {login}=useAuth({
+    middleware:'guest',
+    url:'/'
+  })
+
+
+  /* la parte de async... */
+  const handleSubmit=async (e)=>{
+    e.preventDefault();
+    /* Termina la parte de aqui */
+    const datos={
+      email:emailRef.current.value,
+      password:passwordRef.current.value,
+    }
+
+    login(datos,setErrores);
+  }
+
   return (
     <>
       <div className=''>
@@ -11,8 +36,12 @@ const Login = () => {
       </div>
 
       <div className=' bg-white shadow-lg rounded-md mt-10 px-5 py-10 border'>
-          <form action="" className=' gap-2'>
-
+          <form action="" 
+          className='gap-2'
+          onSubmit={handleSubmit}
+          noValidate
+          >
+            {errores ? errores.map(error=> <Alerta>{error}</Alerta>) : null}
             
             <div className=' mt-2'>
               <label htmlFor="email">Email:</label>
@@ -21,6 +50,7 @@ const Login = () => {
               className='p-2 border rounded w-full mt-2 bg-gray-50'
               id='email'
               placeholder='Tu Email'
+              ref={emailRef}
               />
             
             </div>
@@ -33,6 +63,7 @@ const Login = () => {
               className='p-2 border rounded w-full mt-2 bg-gray-50'
               id='password'
               placeholder='Tu Password'
+              ref={passwordRef}
               />
             
             </div>
