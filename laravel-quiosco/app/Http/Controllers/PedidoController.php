@@ -18,8 +18,15 @@ class PedidoController extends Controller
      */
     public function index()
     {
+<<<<<<< HEAD
         //
         return new PedidoCollection(Pedido::where('estado',0)->get());
+=======
+                
+        /* La parte del  */
+        return new PedidoCollection(Pedido::with('user')->with('productos')->where('estado',0)->get());
+
+>>>>>>> b56a643f425ae58c49b2e5fa8d52dd21a0ca6d04
     }
 
     /**
@@ -27,6 +34,7 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
+        /* Se hace doble integración en la parte del backend */
         /* La unicaforma de comunicar la parte de frontend con backend  */
         $pedido=new Pedido;
         $pedido->user_id=Auth::user()->id;
