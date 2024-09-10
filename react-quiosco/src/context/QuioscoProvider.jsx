@@ -95,9 +95,15 @@ const QuioscoProvider = ({children}) => {
       /* En esta ocasiòn la parte esta haciendo de la autorizaciòn */
       const token = localStorage.getItem('AUTH_TOKEN');
       try {
-        await clienteAxios.post('/api/pedidos',
+        const {data}=await clienteAxios.post('/api/pedidos',
           {
-            total
+            total,
+            productos:pedido.map(producto=>{
+              return{
+                id:producto.id,
+                cantidad:producto.cantidad
+              }
+            })
           },
           {
             headers:{
@@ -105,6 +111,10 @@ const QuioscoProvider = ({children}) => {
             }
           }
       )
+        toast.success(data.message);
+        setTimeout(()=>{
+          setPedido([]);
+        },[])
       } catch (error) {
         console.log(error);
       }

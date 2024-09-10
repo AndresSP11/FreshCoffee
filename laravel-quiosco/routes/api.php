@@ -25,6 +25,7 @@ Route::apiResource('/categorias',CategoriaController::class);
 Route::apiResource('/productos',ProductoController::class);   
 
 Route::post('/logout',[AuthController::class,'logout'])->middleware('auth:sanctum');
+
 Route::apiResource('/pedidos',PedidoController::class)->middleware('auth:sanctum');
 
 //Autenticacion

@@ -15,6 +15,7 @@ export const useAuth=({middleware,url})=>{
     ytokens... */
     /* La partede mutate, nos ayuda a tener el mutate */
     /* En este caso la parte se ve la autorizaciòn o el llamado del User  */
+    /* Esta obteniendo la parte del Usuario */
     const {data:user,error,mutate}=useSWR('/api/user',()=>
         clienteAxios('/api/user',{
             headers:{
@@ -24,7 +25,7 @@ export const useAuth=({middleware,url})=>{
         .then(res=>res.data)
         .catch(error=>{
             throw Error(error?.response?.data?.errors)
-        })
+        },)
 );
 
     /* El middleware va ser en que aprte de nuesta aplicaciòn estamos utilizando este hook */
@@ -74,19 +75,28 @@ export const useAuth=({middleware,url})=>{
     console.log(user);
     console.log(error);
 
+
     useEffect(()=>{
         if(middleware ==='guest' && url && user){
             navigate(url);
         }
+        if(middleware ==='guest' && user && user.admin){
+            navigate('/admin');
+        }
+        if(middleware ==='admin' && user && !user.admin){
+            navigate('/');
+        }
+
         if(middleware==='auth' && error){
             navigate('/auth/login');
         }
+        console.log("Estoy ejecutando tu UseEffect");
     },[user,error])
 
 
-    console.log(middleware);
-    console.log(url);
-
+    /* console.log(middleware);
+    console.log(url); */
+    console.log(user);
     return{
         login,
         registro,

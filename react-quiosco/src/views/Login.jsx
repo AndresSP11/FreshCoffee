@@ -20,6 +20,8 @@ const Login = () => {
   const handleSubmit=async (e)=>{
     e.preventDefault();
     /* Termina la parte de aqui */
+    /* Obteniendo la parte de los datos */
+    
     const datos={
       email:emailRef.current.value,
       password:passwordRef.current.value,
