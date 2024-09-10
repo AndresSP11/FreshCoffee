@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pedido;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PedidoCollection;
 use App\Models\PedidoProducto;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,7 @@ class PedidoController extends Controller
     public function index()
     {
         //
+        return new PedidoCollection(Pedido::where('estado',0)->get());
     }
 
     /**
