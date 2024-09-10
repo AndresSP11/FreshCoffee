@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pedido;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PedidoCollection;
 use App\Models\PedidoProducto;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,10 @@ class PedidoController extends Controller
      */
     public function index()
     {
-        //
+                
+        /* La parte del  */
+        return new PedidoCollection(Pedido::with('user')->with('productos')->where('estado',0)->get());
+
     }
 
     /**
@@ -25,6 +29,7 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
+        /* Se hace doble integración en la parte del backend */
         /* La unicaforma de comunicar la parte de frontend con backend  */
         $pedido=new Pedido;
         $pedido->user_id=Auth::user()->id;
