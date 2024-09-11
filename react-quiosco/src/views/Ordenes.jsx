@@ -1,6 +1,7 @@
 import React from 'react'
 import clienteAxios from '../config/axios'
 import useSWR from 'swr'
+import useQuiosco from '../hooks/useQuiosco'
 import {formatearDinero} from '../helpers'
 export default function Ordenes() {
   /* Obteniendo el token de la validaciòn o logeado */
@@ -16,6 +17,8 @@ export default function Ordenes() {
   /* Recordar que el useSWR es el que vale la parte de la extracciòn de datos */
   const {data,error,isLoading}=useSWR('/api/pedidos',fetcher,{refreshInterval:4000});
   
+  const {handleClickCompletarPedido}=useQuiosco();
+
   if(isLoading) return 'Cargando...'
 
 
@@ -59,6 +62,7 @@ export default function Ordenes() {
                 <span className=' font-normal  text-slate-600'>{formatearDinero(pedido.total)}</span>
               </p>
               <button
+              onClick={()=>handleClickCompletarPedido(pedido.id)}
               type="submit" className={`cursor-pointer w-full bg-indigo-600 hover:bg-indigo-800' p-3 font-bold text-center uppercase rounded-lg text-gray-100`} > 
               Completado
             </button>

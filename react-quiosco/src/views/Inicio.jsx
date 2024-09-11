@@ -11,11 +11,15 @@ const Inicio = () => {
   
   
   const { categoriaActual } = useQuiosco()
-
+  
   // Consulta SWR
   const token = localStorage.getItem('AUTH_TOKEN');
   /* La extracciín de las apis lo hacen ambos tanto como axios y el SWR */
-  const fetcher = () => clienteAxios('/api/productos').then(data => data.data)
+  const fetcher = () => clienteAxios('/api/productos',{
+    headers:{
+      Authorization:`Bearer ${token}`
+    }
+  }).then(data => data.data)
 
   const { data, error, isLoading } = useSWR('/api/productos', fetcher,{
     refreshInterval:1000
@@ -38,7 +42,9 @@ const Inicio = () => {
           {productos.map(producto=>(
             <Producto
             key={producto.id}
-            producto={producto}></Producto>
+            producto={producto}
+            botonAgregar={true}
+            ></Producto>
           ))}
           
       </div>

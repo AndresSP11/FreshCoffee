@@ -18,15 +18,10 @@ class PedidoController extends Controller
      */
     public function index()
     {
-<<<<<<< HEAD
-        //
-        return new PedidoCollection(Pedido::where('estado',0)->get());
-=======
                 
         /* La parte del  */
         return new PedidoCollection(Pedido::with('user')->with('productos')->where('estado',0)->get());
 
->>>>>>> b56a643f425ae58c49b2e5fa8d52dd21a0ca6d04
     }
 
     /**
@@ -86,6 +81,15 @@ class PedidoController extends Controller
     public function update(Request $request, Pedido $pedido)
     {
         //
+        /* Ya estai dentificadolaparte del pedido */
+        $pedido->estado=1;
+        $pedido->save();
+
+        return [
+            'pedido'=>$pedido
+        ];
+
+
     }
 
     /**

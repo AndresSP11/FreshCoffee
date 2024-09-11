@@ -38,11 +38,16 @@ const QuioscoProvider = ({children}) => {
   /* Recordar que estamos utilizando la parte de axios, config para 
   obtener la baseURL definida y ya no se necesita el axios directamente  */
   const obtenerCategorias=async()=>{
+    const token=localStorage.getItem('AUTH_TOKEN')
     try {
-        const {data}=await clienteAxios(`/api/categorias`)
+        const {data}=await clienteAxios(`/api/categorias`,{
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        })
         /* Destructurin la parte de la data. */
-        setCategorias(data.data);
-        setCategoriaActual(data.data[0]);
+        setCategorias(data?.data);
+        setCategoriaActual(data?.data[0]);
     } catch (error) {
         console.log(error); 
     }
@@ -120,6 +125,32 @@ const QuioscoProvider = ({children}) => {
       }
     }
 
+    const handleClickCompletarPedido=async id=>{
+      const token=localStorage.getItem('AUTH_TOKEN');
+      try {
+        await clienteAxios.put(`/api/pedidos/${id}`,null,{
+          headers:{
+            Authorization: `Bearer ${token}`
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    const handleClickProductoAgotado=async id=>{
+      const token=localStorage.getItem('AUTH_TOKEN');
+      try {
+        await clienteAxios.put(`/api/productos/${id}`,null,{
+          headers:{
+            Authorization: `Bearer ${token}`
+          }
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
 
   return (
     <QuioscoContext.Provider value={
@@ -137,7 +168,9 @@ const QuioscoProvider = ({children}) => {
            eliminarProducto,
            handleEditarCantidad,
            total,
-           handleSubmitNuevaOrden
+           handleSubmitNuevaOrden,
+           handleClickCompletarPedido,
+           handleClickProductoAgotado
         }
     }>
         {children}

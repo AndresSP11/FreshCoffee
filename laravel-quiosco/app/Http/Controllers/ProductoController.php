@@ -40,7 +40,14 @@ class ProductoController extends Controller
      */
     public function update(Request $request, Producto $producto)
     {
+
+        /* El producto que se esta enviando es el arreglo  */
         //
+        $producto->disponible=0;
+        $producto->save();
+
+        return $producto;
+
     }
 
     /**
